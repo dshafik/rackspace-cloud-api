@@ -1,0 +1,7 @@
+The Rackspace Cloud API for PHP is intended to be a full API for all
+Rackspace Cloud services.
+
+The initial offering focuses on Cloud Servers.
+
+To use this API, you must place a copy of the Zend framework in your
+include_path.
