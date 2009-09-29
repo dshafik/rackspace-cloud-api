@@ -6,8 +6,6 @@
  * @package Rackspace
  */
 
-set_include_path(realpath("./lib").PATH_SEPARATOR.get_include_path());
-
 /**
  * Zend_Http_Client
  */
