@@ -134,13 +134,3 @@ class Rackspace {
 		return true;
 	}
 }
-
-
-Rackspace::$username = 'dshafik';
-Rackspace::$api_key = 'd7b3e7a654813e895b86ac6b8c6546f2';
-Rackspace::auth();
-
-$servers = Rackspace::getInstance(Rackspace::SERVICE_CLOUD_SERVERS);
-foreach ($servers->getServerDetails() as $server) {
-	var_dump($server);
-}
