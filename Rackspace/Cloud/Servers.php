@@ -30,10 +30,10 @@ class Rackspace_Cloud_Servers {
 		$http->setUri(Rackspace::$server_url . '/servers');
 		
 		$response = $http->request();
-		
+
 		$array = Zend_Json::decode($response->getBody());
 		
-		if (sizeof($array) == 0) {
+		if (sizeof($array['servers']) == 0) {
 			return false;
 		} else {
 			require_once 'Rackspace/Cloud/Servers/Instance.php';
