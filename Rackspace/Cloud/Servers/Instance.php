@@ -63,6 +63,12 @@ class Rackspace_Cloud_Servers_Instance extends Rackspace_Cloud_Servers_Abstract 
 	 * @var array An array of metadata
 	 */
 	protected $metadata;
+
+	public function __construct($data) {
+		foreach ($data as $key => $value) {
+			$this->__set($key, $value);
+		}
+	}
 	
 	/**
 	 * Get Private and Public IPs
@@ -77,7 +83,8 @@ class Rackspace_Cloud_Servers_Instance extends Rackspace_Cloud_Servers_Abstract 
 		$http->setUri(Rackspace::$server_url . "/servers/$this->id/ips");
 		$reponse = $http->request();
 		
-		$this->addresses = Zend_Json::decode($reponse->getBody());
+		$addr = Zend_Json::decode($reponse->getBody());
+		$this->addresses = $addr['addresses'];
 		return $this->addresses;
 	}
 	
@@ -123,6 +130,9 @@ class Rackspace_Cloud_Servers_Instance extends Rackspace_Cloud_Servers_Abstract 
 	
 	public function getFlavor()
 	{
+		if (is_null($this->flavorId)) {
+			throw new Rackspace_Exception(Rackspace_Exception::INCOMPLETE_SERVER_INSTANCE);
+		}
 		return $this->flavorId;
 	}
 	

@@ -99,6 +99,10 @@ class Rackspace_Cloud_Servers {
 				$flavors[] = new Rackspace_Cloud_Servers_Flavor($flavor);
 			}
 		}
+
+		if (!is_null($id)) {
+			return $flavors[0];
+		}
 		
 		return $flavors;
 	}
