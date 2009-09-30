@@ -66,30 +66,70 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
      * @todo Implement testGetServerDetails().
      */
     public function testGetServerDetails() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+		$this->checkConfig();
+
+		$api = Rackspace::getInstance(Rackspace::SERVICE_CLOUD_SERVERS);
+		/* @var $servers Rackspace_Cloud_Servers */
+
+		$this->assertType('Rackspace_Cloud_Servers', $api);
+
+		$servers = $api->getServers();
+		if ($servers === false) {
+			// No servers listed
+			$this->assertFalse($servers);
+		} else {
+			$this->assertType('array', $servers);
+
+			foreach ($servers as $server) {
+				$this->assertType('Rackspace_Cloud_Servers_Instance', $server);
+				$this->assertObjectHasAttribute('name', $server);
+				$this->assertObjectHasAttribute('id', $server);
+				$this->assertObjectHasAttribute('progress', $server);
+				$this->assertObjectHasAttribute('imageId', $server);
+				$this->assertObjectHasAttribute('flavorId', $server);
+				$this->assertObjectHasAttribute('status', $server);
+				$this->assertObjectHasAttribute('hostId', $server);
+				$this->assertObjectHasAttribute('addresses', $server);
+				$this->assertType('array', $server->addresses);
+				$this->assertObjectHasAttribute('metadata', $server);
+			}
+		}
     }
 
     /**
      * @todo Implement testGetFlavorDetails().
      */
     public function testGetFlavorDetails() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->checkConfig();
+
+		$api = Rackspace::getInstance(Rackspace::SERVICE_CLOUD_SERVERS);
+		/* @var $api Rackspace_Cloud_Servers */
+
+		$this->assertType('Rackspace_Cloud_Servers', $api);
+
+		$flavors = $api->getFlavorDetails();
+		if ($flavors === false) {
+			// No servers listed
+			$this->assertFalse($flavors);
+		} else {
+			$this->assertType('array', $flavors);
+
+			foreach ($flavors as $flavor) {
+				$this->assertType('Rackspace_Cloud_Servers_Flavor', $flavor);
+				$this->assertObjectHasAttribute('name', $flavor);
+				$this->assertObjectHasAttribute('id', $flavor);
+				$this->assertObjectHasAttribute('ram', $flavor);
+				$this->assertObjectHasAttribute('disk', $flavor);
+			}
+		}
     }
 
     /**
      * @todo Implement testGetHttpClient().
      */
     public function testGetHttpClient() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $http = Rackspace_Cloud_Servers::getHttpClient();
+		$this->assertType('Zend_Http_Client', $http);
     }
 }
 ?>
