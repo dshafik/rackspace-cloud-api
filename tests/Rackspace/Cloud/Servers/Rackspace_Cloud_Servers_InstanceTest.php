@@ -37,9 +37,6 @@ class Rackspace_Cloud_Servers_InstanceTest extends RackspaceTestAbstract
     {
     }
 
-    /**
-     * @todo Implement testGetIPs().
-     */
     public function testGetIPs() {
 		$this->checkConfig();
 
@@ -66,9 +63,6 @@ class Rackspace_Cloud_Servers_InstanceTest extends RackspaceTestAbstract
 		}
     }
 
-    /**
-     * @todo Implement testGetPublicIPs().
-     */
     public function testGetPublicIPs() {
         $this->checkConfig();
 
@@ -93,9 +87,6 @@ class Rackspace_Cloud_Servers_InstanceTest extends RackspaceTestAbstract
 		}
     }
 
-    /**
-     * @todo Implement testGetPrivateIPs().
-     */
     public function testGetPrivateIPs() {
         $this->checkConfig();
 
@@ -120,9 +111,6 @@ class Rackspace_Cloud_Servers_InstanceTest extends RackspaceTestAbstract
 		}
     }
 
-    /**
-     * @todo Implement testGetFlavor().
-     */
     public function testGetFlavorBad() {
 		$this->setExpectedException('Rackspace_Exception');
 		
@@ -177,9 +165,6 @@ class Rackspace_Cloud_Servers_InstanceTest extends RackspaceTestAbstract
 		}
     }
 
-    /**
-     * @todo Implement testReboot().
-     */
     public function testReboot() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(

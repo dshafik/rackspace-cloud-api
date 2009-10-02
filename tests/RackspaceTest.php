@@ -37,18 +37,12 @@ class RackspaceTest extends RackspaceTestAbstract
     {
     }
 
-    /**
-     * @todo Implement testGetInstance().
-     */
     public function testGetInstance() {
 		$this->checkConfig();
 		$servers = Rackspace::getInstance(Rackspace::SERVICE_CLOUD_SERVERS);
 		$this->assertType('Rackspace_Cloud_Servers', $servers);
     }
 
-    /**
-     * @todo Implement testGetHttpClient().
-     */
     public function testGetHttpClient() {
 		$this->checkConfig();
 
@@ -64,9 +58,6 @@ class RackspaceTest extends RackspaceTestAbstract
 		$auth = Rackspace::auth();
 	}
 
-    /**
-     * @todo Implement testAuth().
-     */
     public function testAuth() {
 		$this->checkConfig();
 
