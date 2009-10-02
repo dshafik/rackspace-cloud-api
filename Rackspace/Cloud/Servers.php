@@ -50,22 +50,40 @@ class Rackspace_Cloud_Servers {
 	 *
 	 * @return array An array of Rackspace_Cloud_Server_Instance objects
 	 */
-	public function getServerDetails()
+	public function getServerDetails($id = null)
 	{
 		$http = self::getHttpClient();
-		$http->setUri(Rackspace::$server_url . '/servers/detail');
+
+		if (is_null($id)) {
+			$http->setUri(Rackspace::$server_url . '/servers/detail');
+		} else {
+			$http->setUri(Rackspace::$server_url . "/servers/$id");
+		}
 		
 		$response = $http->request();
-		
+
+		if ($response->isError()) {
+			throw new Rackspace_Exception(Rackspace_Exception::BAD_REQUEST);
+		}
+
 		$array = Zend_Json::decode($response->getBody());
-		
+
 		if (sizeof($array) == 0) {
 			return false;
 		} else {
 			require_once 'Rackspace/Cloud/Servers/Instance.php';
+
+			if (!is_null($id)) {
+				$array['servers'][0] = $array['server'];
+			}
+
 			foreach ($array['servers'] as $server) {
 				$servers[] = new Rackspace_Cloud_Servers_Instance($server);
 			}
+		}
+
+		if (!is_null($id)) {
+			return $servers[0];
 		}
 		
 		return $servers;

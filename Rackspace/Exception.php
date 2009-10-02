@@ -15,11 +15,13 @@ class Rackspace_Exception extends Exception {
 	const UNKNOWN_SERVICE = 1;
 	const AUTHENTICATION_ERROR = 2;
 	const INCOMPLETE_SERVER_INSTANCE = 3;
+	const BAD_REQUEST = 4;
 	
 	static public $msg = array(
 		self::UNKNOWN_SERVICE => 'Unknown Cloud Service.',
 		self::AUTHENTICATION_ERROR => 'Authentication Error.',
 		self::INCOMPLETE_SERVER_INSTANCE => 'You must use Rackspace_Cloud_Server::getServerDetails() to retrieve the flavorId',
+		self::BAD_REQUEST => 'An error occurred with the last request',
 	);
 	
 	public function __construct($error)
