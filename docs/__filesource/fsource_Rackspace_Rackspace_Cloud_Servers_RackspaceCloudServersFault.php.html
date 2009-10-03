@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for Fault.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						<h1>Source for file Fault.php</h1>
+<p>Documentation is available at <a href="../Rackspace/Rackspace_Cloud_Servers/_Rackspace---Cloud---Servers---Fault.php.html">Fault.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-doc">&nbsp;*&nbsp;Rackspace&nbsp;Cloud&nbsp;Servers&nbsp;Fault</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-doc">&nbsp;*&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@author</span><span class="src-doc">&nbsp;Davey&nbsp;Shafik&nbsp;&lt;me@daveyshafik.com&gt;</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Rackspace</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@subpackage</span><span class="src-doc">&nbsp;Rackspace_Cloud_Servers</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-doc">&nbsp;*&nbsp;Rackspace&nbsp;Cloud&nbsp;Servers&nbsp;Fault</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-doc">&nbsp;*&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a13"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Rackspace</span></div></li>
+<li><div class="src-line"><a name="a14"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@subpackage</span><span class="src-doc">&nbsp;Rackspace_Cloud_Servers</span></div></li>
+<li><div class="src-line"><a name="a15"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a16"></a><span class="src-key">class&nbsp;</span><a href="../Rackspace/Rackspace_Cloud_Servers/Rackspace_Cloud_Servers_Fault.html">Rackspace_Cloud_Servers_Fault</a>&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a17"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a href="../Rackspace/Rackspace_Cloud_Servers/Rackspace_Cloud_Servers_Fault.html#var$code">$code</a><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a href="../Rackspace/Rackspace_Cloud_Servers/Rackspace_Cloud_Servers_Fault.html#var$message">$message</a><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a19"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a href="../Rackspace/Rackspace_Cloud_Servers/Rackspace_Cloud_Servers_Fault.html#var$details">$details</a><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">/*&nbsp;Potential&nbsp;Faults</span></div></li>
+<li><div class="src-line"><a name="a22"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;cloudServersFault</span></div></li>
+<li><div class="src-line"><a name="a23"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;serviceUnavailable</span></div></li>
+<li><div class="src-line"><a name="a24"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;unauthorized</span></div></li>
+<li><div class="src-line"><a name="a25"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;badRequest</span></div></li>
+<li><div class="src-line"><a name="a26"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;overLimit</span></div></li>
+<li><div class="src-line"><a name="a27"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;badMediaType</span></div></li>
+<li><div class="src-line"><a name="a28"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;badMethod</span></div></li>
+<li><div class="src-line"><a name="a29"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;itemNotFound</span></div></li>
+<li><div class="src-line"><a name="a30"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;buildInProgress</span></div></li>
+<li><div class="src-line"><a name="a31"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;erverCapacityUnavailable</span></div></li>
+<li><div class="src-line"><a name="a32"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;ackupOrResizeInProgress</span></div></li>
+<li><div class="src-line"><a name="a33"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;resizeNotAllowed</span></div></li>
+<li><div class="src-line"><a name="a34"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;notImplemented</span></div></li>
+<li><div class="src-line"><a name="a35"></a><span class="src-comm">&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a36"></a><span class="src-sym">}</span></div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Fri, 02 Oct 2009 22:17:06 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</body>
+</html>
