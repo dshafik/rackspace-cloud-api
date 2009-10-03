@@ -19,6 +19,7 @@ require_once 'Zend/Json.php';
  * @subpackage Rackspace_Cloud_Servers
  */
 class Rackspace_Cloud_Servers {
+	
 	/**
 	 * Retrieve a list of Servers
 	 *
@@ -48,6 +49,7 @@ class Rackspace_Cloud_Servers {
 	/**
 	 * Retrieve a list of Servers
 	 *
+	 * @param int Server ID
 	 * @return array An array of Rackspace_Cloud_Server_Instance objects
 	 */
 	public function getServerDetails($id = null)
@@ -88,7 +90,13 @@ class Rackspace_Cloud_Servers {
 		
 		return $servers;
 	}
-	
+
+	/**
+	 * Retrieve a list of Flavors
+	 *
+	 * @param int $id Flavor ID
+	 * @return array An array of Rackspace_Cloud_Servers_Flavor objects
+	 */
 	public function getFlavorDetails($id = null)
 	{
 		$http = self::getHttpClient();

@@ -71,7 +71,13 @@ class Rackspace {
 	 * @var array Array of Rackspace Cloud API Service singletons
 	 */
 	static public $singletons = array();
-	
+
+	/**
+	 * Get an Instance of a specific cloud service object
+	 *
+	 * @param int $service One of the Rackspace::SERVICE_* constants
+	 * @return object
+	 */
 	static public function getInstance($service)
 	{
 		switch ($service) {
