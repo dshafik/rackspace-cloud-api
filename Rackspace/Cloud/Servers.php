@@ -19,40 +19,13 @@ require_once 'Zend/Json.php';
  * @subpackage Rackspace_Cloud_Servers
  */
 class Rackspace_Cloud_Servers {
-	
-	/**
-	 * Retrieve a list of Servers
-	 *
-	 * @return array An array of Rackspace_Cloud_Server_Instance objects
-	 */
-	public function getServers()
-	{
-		$http = self::getHttpClient();
-		$http->setUri(Rackspace::$server_url . '/servers');
-		
-		$response = $http->request();
-
-		$array = Zend_Json::decode($response->getBody());
-		
-		if (sizeof($array['servers']) == 0) {
-			return false;
-		} else {
-			require_once 'Rackspace/Cloud/Servers/Instance.php';
-			foreach ($array['servers'] as $server) {
-				$servers[] = new Rackspace_Cloud_Servers_Instance($server);
-			}
-		}
-		
-		return $servers;
-	}
-	
 	/**
 	 * Retrieve a list of Servers
 	 *
 	 * @param int Server ID
 	 * @return array An array of Rackspace_Cloud_Server_Instance objects
 	 */
-	public function getServerDetails($id = null)
+	public function getServers($id = null)
 	{
 		$http = self::getHttpClient();
 
@@ -97,7 +70,7 @@ class Rackspace_Cloud_Servers {
 	 * @param int $id Flavor ID
 	 * @return array An array of Rackspace_Cloud_Servers_Flavor objects
 	 */
-	public function getFlavorDetails($id = null)
+	public function getFlavors($id = null)
 	{
 		$http = self::getHttpClient();
 		if (is_null($id)) {
