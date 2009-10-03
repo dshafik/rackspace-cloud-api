@@ -36,6 +36,9 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
     {
     }
 
+    /**
+     * @todo Implement testGetServers().
+     */
     public function testGetServers() {
 		$this->checkConfig();
 
@@ -59,6 +62,9 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
 		}
     }
 
+    /**
+     * @todo Implement testGetServerDetails().
+     */
     public function testGetServerDetails() {
 		$this->checkConfig();
 
@@ -90,6 +96,9 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
 		}
     }
 
+    /**
+     * @todo Implement testGetFlavorDetails().
+     */
     public function testGetFlavorDetails() {
         $this->checkConfig();
 
@@ -115,6 +124,9 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
 		}
     }
 
+    /**
+     * @todo Implement testGetHttpClient().
+     */
     public function testGetHttpClient() {
         $http = Rackspace_Cloud_Servers::getHttpClient();
 		$this->assertType('Zend_Http_Client', $http);
