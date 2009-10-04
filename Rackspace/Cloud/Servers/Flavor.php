@@ -24,6 +24,11 @@ class Rackspace_Cloud_Servers_Flavor extends Rackspace_Cloud_Servers_Abstract im
 	public $disk;
 	public $name;
 
+	/**
+	 * Return int representation of this object
+	 *
+	 * @return int
+	 */
 	public function toInt()
 	{
 		return (int) $this->id;

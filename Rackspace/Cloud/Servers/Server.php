@@ -13,12 +13,17 @@
 require_once 'Rackspace/Cloud/Servers/Abstract.php';
 
 /**
+ * Rackspace_Json_Int
+ */
+require_once 'Rackspace/Json/Int.php';
+
+/**
  * Rackspace Cloud Servers Instance
  * 
  * @package Rackspace
  * @subpackage Rackspace_Cloud_Servers
  */
-class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
+class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract implements Rackspace_Json_Int {
 	/**
 	 * @var string Progress
 	 */
@@ -131,7 +136,11 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		
 		return $decoded['private'];
 	}
-	
+
+	/**
+	 * Get Current Instance Flavor
+	 * @return Rackspace_Cloud_Servers_Flavor
+	 */
 	public function getFlavor()
 	{
 		if (is_null($this->flavorId)) {
@@ -140,6 +149,11 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		return $this->flavorId;
 	}
 
+	/**
+	 * Send Create request
+	 *
+	 * @return bool
+	 */
 	public function create()
 	{
 		if (!$this->isNew()) {
@@ -152,6 +166,12 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		$http->setUri(Rackspace::$server_url . "/servers");*/
 	}
 
+	/**
+	 * Add metadata to this instance
+	 *
+	 * @param string $name Metadata name
+	 * @param string $value Metadata vaule
+	 */
 	public function addMetadata($name, $value)
 	{
 		if (!$this->isNew()) {
@@ -173,11 +193,25 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		$this->metadata[$name] = $value;
 	}
 
+	/**
+	 * Remove metadata from this instance
+	 *
+	 * @param string $name Metadata name
+	 */
 	public function removeMetadata($name)
 	{
 		unset($this->metadata[$name]);
 	}
 
+	/**
+	 * Add file to this server
+	 *
+	 * This is only possible when creating
+	 * a new server.
+	 *
+	 * @param string $path Server file path
+	 * @param string $contents File contents, must be under 10KB (will be base64 encoded when sent)
+	 */
 	public function addFile($path, $contents)
 	{
 		if (!$this->isNew()) {
@@ -200,19 +234,21 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		$this->personality[] = new Rackspace_Cloud_Servers_Server_File($path, $contents);
 	}
 
-	public function removeFile($path)
-	{
-		unset($this->files[$path]);
-	}
-	
+
+	/**
+	 * Reboot the server
+	 *
+	 * @param string $type Whether to perform a SOFT or HARD reboot
+	 * @return bool
+	 */
 	public function reboot($type = 'SOFT')
 	{
 		$http = Rackspace_Cloud_Servers::getHttpClient();
 		$http->setUri(Rackspace::$server_url . "/servers/$this->id/action");
 		
-		$body = new stdClass();
-		$body->reboot = new StdClass();
-		$body->reboot->type = $type;
+		$body = new Rackspace_Json_Container();
+		$body->reboot = new Rackspace_Json_Container();
+		$body->reboot->type = strtoupper($type);
 		
 		$json = Zend_Json::encode($body);
 		
@@ -229,6 +265,21 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		}
 	}
 
+	/**
+	 * Return int representation of this object
+	 *
+	 * @return int
+	 */
+	public function toInt()
+	{
+		return (int) $this->id;
+	}
+
+	/**
+	 * Clone the server
+	 *
+	 * @return void
+	 */
 	public function __clone()
 	{
 		$this->id = null;
@@ -237,14 +288,26 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		$this->name .= "(Cloned)";
 		$this->hostId = null;
 	}
-	
+
+	/**
+	 * __get()
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function __get($key)
 	{
 		if (property_exists($this, $key)) {
 			return $this->{$key};
 		}
 	}
-	
+
+	/**
+	 * __set()
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function __set($key, $value)
 	{
 		if ($key == 'flavorId' && !($value instanceof Rackspace_Cloud_Servers_Flavor)) {
@@ -283,6 +346,11 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract {
 		$this->{$key} = $value;
 	}
 
+	/**
+	 * Check if the current instance is a new server
+	 *
+	 * @return bool
+	 */
 	protected function isNew()
 	{
 		if (isset($this->id)) {
