@@ -234,6 +234,21 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 		$this->personality[] = new Rackspace_Cloud_Servers_Server_File($path, $contents);
 	}
 
+	public function removeFile($path)
+	{
+		if (sizeof($this->personality) == 0) {
+			throw new Rackspace_Exception(Rackspace_Exception::FILE_NOT_FOUND);
+		}
+
+		foreach ($this->personality as $key => $value) {
+			if ($value instanceof Rackspace_Cloud_Servers_Server_File && $value->path == $path) {
+				unset($this->personality[$key]);
+			}
+		}
+
+		throw new Rackspace_Exception(Rackspace_Exception::FILE_NOT_FOUND);
+	}
+
 
 	/**
 	 * Reboot the server

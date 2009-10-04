@@ -20,7 +20,7 @@ require_once 'Rackspace/Json/Object.php';
  * @package Rackspace
  * @subpackage Rackspace_Cloud_Servers
  */
-class Rackspace_Cloud_Servers_Server_File implements Rackspace_Json_Object {
+class Rackspace_Cloud_Servers_Server_File extends Rackspace_Cloud_Servers_Abstract implements Rackspace_Json_Object {
 	protected $path;
 	protected $contents;
 
