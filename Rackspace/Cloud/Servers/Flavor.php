@@ -18,7 +18,7 @@ require_once 'Rackspace/Cloud/Servers/Abstract.php';
  * @package Rackspace
  * @subpackage Rackspace_Cloud_Servers
  */
-class Rackspace_Cloud_Servers_Flavor extends Rackspace_Cloud_Servers_Abstract implements Rackspace_Json_Int, Rackspace_Json_Object {
+class Rackspace_Cloud_Servers_Flavor extends Rackspace_Cloud_Servers_Abstract implements Rackspace_Json_Int {
 	public $id;
 	public $ram;
 	public $disk;
