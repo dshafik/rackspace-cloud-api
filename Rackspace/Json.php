@@ -1,12 +1,55 @@
 <?php
+/**
+ * Rackspace Json Helper
+ * 
+ * @package Rackspace
+ * @subpackage Rackspace_Json
+ */
+
+/**
+ * Rackspace_Json_Container
+ */
 require_once 'Rackspace/Json/Container.php';
+
+/**
+ * Rackspace_Json_Array
+ */
 require_once 'Rackspace/Json/Array.php';
+
+/**
+ * Rackspace_Json_Object
+ */
 require_once 'Rackspace/Json/Object.php';
+
+/**
+ * Rackspace_Json_Int
+ */
 require_once 'Rackspace/Json/Int.php';
+
+/**
+ * Rackspace_Json_String
+ */
 require_once 'Rackspace/Json/String.php';
+
+/**
+ * Zend_Json
+ */
 require_once 'Zend/Json.php';
 
+/**
+ * Rackspace Json Helper
+ *
+ * @package Rackspace
+ * @subpackage Rackspace_Json
+ */
 class Rackspace_Json {
+
+	/**
+	 * Retrieve value for JSON encoding
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	static public function getValue($value) {
 		if ($value instanceof Rackspace_Json_Int) {
 			return $value->toInt();

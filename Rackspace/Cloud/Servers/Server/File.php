@@ -1,6 +1,25 @@
 <?php
+/**
+ * Rackspace Cloud Server File
+ *
+ * @package Rackspace
+ * @subpackage Rackspace_Cloud_Servers
+ */
+
+/**
+ * Rackspace_Json_Object
+ */
 require_once 'Rackspace/Json/Object.php';
 
+/**
+ * Rackspace Cloud Server File
+ *
+ * Represents a file that will be pushed
+ * to a new server instance upon creation.
+ *
+ * @package Rackspace
+ * @subpackage Rackspace_Cloud_Servers
+ */
 class Rackspace_Cloud_Servers_Server_File implements Rackspace_Json_Object {
 	protected $path;
 	protected $contents;
