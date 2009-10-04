@@ -20,10 +20,27 @@ require_once 'Zend/Json.php';
  */
 class Rackspace_Cloud_Servers {
 	/**
+	 * Create a new Cloud Server
+	 *
+	 * @param string $name Server Name
+	 * @param Rackspace_Cloud_Servers_Image|int $imageId A Rackspace_Cloud_Servers_Image object or an Image ID
+	 * @param Rackspace_Cloud_Servers_Flavor|int $flavorId A Rackspace_Cloud_Servers_Flavor object or a Flavor ID
+	 * @return Rackspace_Cloud_Servers_Server
+	 */
+	public function createServer($name, $imageId, $flavorId)
+	{
+		require_once 'Rackspace/Cloud/Servers/Server.php';
+
+		$data = array('name' => $name, 'imageId' => $imageId, 'flavorId' => $flavorId);
+		$instance = new Rackspace_Cloud_Servers_Server($data);
+		return $instance;
+	}
+
+	/**
 	 * Retrieve a list of Servers
 	 *
 	 * @param int Server ID
-	 * @return array An array of Rackspace_Cloud_Server_Instance objects
+	 * @return array An array of Rackspace_Cloud_Servers_Server objects
 	 */
 	public function getServers($id = null)
 	{
@@ -43,17 +60,17 @@ class Rackspace_Cloud_Servers {
 
 		$array = Zend_Json::decode($response->getBody());
 
-		if (sizeof($array) == 0) {
+		if (isset($array['servers']) && sizeof($array['servers']) == 0 && is_null($id)) {
 			return false;
 		} else {
-			require_once 'Rackspace/Cloud/Servers/Instance.php';
+			require_once 'Rackspace/Cloud/Servers/Server.php';
 
 			if (!is_null($id)) {
 				$array['servers'][0] = $array['server'];
 			}
 
 			foreach ($array['servers'] as $server) {
-				$servers[] = new Rackspace_Cloud_Servers_Instance($server);
+				$servers[] = new Rackspace_Cloud_Servers_Server($server);
 			}
 		}
 
@@ -83,7 +100,7 @@ class Rackspace_Cloud_Servers {
 		
 		$array = Zend_Json::decode($response->getBody());
 		
-		if (sizeof($array) == 0) {
+		if (isset($array['flavors']) && sizeof($array['flavors']) == 0 && is_null($id)) {
 			return false;
 		} else {
 			require_once 'Rackspace/Cloud/Servers/Flavor.php';
@@ -104,6 +121,52 @@ class Rackspace_Cloud_Servers {
 		}
 		
 		return $flavors;
+	}
+
+	/**
+	 * Retrieve a list of Images
+	 *
+	 * @param int $id Image ID
+	 * @return array An array of Rackspace_Cloud_Servers_Flavor objects
+	 */
+	public function getImages($id = null)
+	{
+		$http = self::getHttpClient();
+		if (is_null($id)) {
+			$http->setUri(Rackspace::$server_url . '/images/detail');
+		} else {
+			$http->setUri(Rackspace::$server_url . "/images/$id");
+		}
+
+		$response = $http->request();
+
+		if ($response->isError()) {
+			throw new Rackspace_Exception(Rackspace_Exception::BAD_REQUEST);
+		}
+
+		$array = Zend_Json::decode($response->getBody());
+
+		if (sizeof($array) == 0) {
+			return false;
+		} else {
+			require_once 'Rackspace/Cloud/Servers/Image.php';
+
+			if ($id) {
+				$i = $array;
+			} else {
+				$i = $array['images'];
+			}
+
+			foreach ($i as $image) {
+				$images[] = new Rackspace_Cloud_Servers_Image($image);
+			}
+		}
+
+		if (!is_null($id)) {
+			return $images[0];
+		}
+
+		return $images;
 	}
 	
 	/**

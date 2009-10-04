@@ -36,9 +36,6 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
     {
     }
 
-    /**
-     * @todo Implement testGetServers().
-     */
     public function testGetServers() {
 		$this->checkConfig();
 
@@ -55,33 +52,7 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
 			$this->assertType('array', $servers);
 
 			foreach ($servers as $server) {
-				$this->assertType('Rackspace_Cloud_Servers_Instance', $server);
-				$this->assertObjectHasAttribute('name', $server);
-				$this->assertObjectHasAttribute('id', $server);
-			}
-		}
-    }
-
-    /**
-     * @todo Implement testGetServerDetails().
-     */
-    public function testGetServerDetails() {
-		$this->checkConfig();
-
-		$api = Rackspace::getInstance(Rackspace::SERVICE_CLOUD_SERVERS);
-		/* @var $servers Rackspace_Cloud_Servers */
-
-		$this->assertType('Rackspace_Cloud_Servers', $api);
-
-		$servers = $api->getServers();
-		if ($servers === false) {
-			// No servers listed
-			$this->assertFalse($servers);
-		} else {
-			$this->assertType('array', $servers);
-
-			foreach ($servers as $server) {
-				$this->assertType('Rackspace_Cloud_Servers_Instance', $server);
+				$this->assertType('Rackspace_Cloud_Servers_Server', $server);
 				$this->assertObjectHasAttribute('name', $server);
 				$this->assertObjectHasAttribute('id', $server);
 				$this->assertObjectHasAttribute('progress', $server);
@@ -96,10 +67,7 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
 		}
     }
 
-    /**
-     * @todo Implement testGetFlavorDetails().
-     */
-    public function testGetFlavorDetails() {
+    public function testGetFlavors() {
         $this->checkConfig();
 
 		$api = Rackspace::getInstance(Rackspace::SERVICE_CLOUD_SERVERS);
@@ -107,7 +75,7 @@ class Rackspace_Cloud_ServersTest extends RackspaceTestAbstract
 
 		$this->assertType('Rackspace_Cloud_Servers', $api);
 
-		$flavors = $api->getFlavorDetails();
+		$flavors = $api->getFlavors();
 		if ($flavors === false) {
 			// No servers listed
 			$this->assertFalse($flavors);
