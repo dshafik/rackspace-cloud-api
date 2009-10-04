@@ -79,6 +79,9 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 	 */
 	protected $personality;
 
+	const FILE_CONTENTS = 0;
+	const FILE_PATH = 1;
+
 	/**
 	 * Get Private and Public IPs
 	 *
@@ -162,8 +165,20 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 
 		$json = Zend_Json::encode($this);
 
-		/*$http = Rackspace_Cloud_Servers::getHttpClient();
-		$http->setUri(Rackspace::$server_url . "/servers");*/
+		$http = Rackspace_Cloud_Servers::getHttpClient();
+		$http->setUri(Rackspace::$server_url . "/servers");
+		$http->setRawData($json);
+		$http->setEncType("application/json");
+
+		$response = $http->request("POST");
+
+		var_dump($response, Rackspace_Json::indent($response->getBody()));
+
+		if ($response->isSuccessful()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -210,13 +225,24 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 	 * a new server.
 	 *
 	 * @param string $path Server file path
-	 * @param string $contents File contents, must be under 10KB (will be base64 encoded when sent)
+	 * @param string $contents File contents or path, file must be under 10KB (will be base64 encoded when sent)
+	 * @param bool $autodetect Whether to auto-detect if a file path or file contents was passed. You may pass Rackspace_Cloud_Servers_Server::FILE_CONTENTS/FILE_PATH to force either way.
 	 */
-	public function addFile($path, $contents)
+	public function addFile($path, $contents, $autodetect = true)
 	{
 		if (!$this->isNew()) {
 			throw new Rackspace_Exception(Rackspace_Exception::SERVER_ALREADY_EXISTS);
 		}
+
+		if ($autodetect && file_exists($contents)) {
+			// Auto-detected or explict file, grab the file contents
+			$contents = file_get_contents($contents);
+		} elseif ($autodetect === 1) {
+			// File doesn't exist and should
+			throw new Rackspace_Exception(Rackspace_Exception::FILE_NOT_FOUND);
+		} /* else {
+			//File contents were passed in, no need to do anything
+		}*/
 
 		if (strlen($contents) > 10*1024) {
 			throw new Rackspace_Exception(Rackspace_Exception::FILE_TOO_LARGE);
