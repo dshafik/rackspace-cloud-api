@@ -58,6 +58,8 @@ abstract class Rackspace_Cloud_Servers_Abstract {
 		if (isset($this->vars[$key])) {
 			return $this->vars[$key];
 		}
+
+		return $this->{$key};
 	}
 
 	/**

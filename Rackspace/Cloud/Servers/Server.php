@@ -172,7 +172,27 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 
 		$response = $http->request("POST");
 
-		var_dump($response, Rackspace_Json::indent($response->getBody()));
+		if ($response->isSuccessful()) {
+			$array = Zend_Json::decode($response->getBody());
+			// Setup this object now we have all our data
+			$this->__construct($array['server']);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Delete Server
+	 *
+	 * @return bool
+	 */
+	public function delete()
+	{
+		$http = Rackspace_Cloud_Servers::getHttpClient();
+		$http->setUri(Rackspace::$server_url . "/servers/$this->id");
+
+		$response = $http->request('DELETE');
 
 		if ($response->isSuccessful()) {
 			return true;
@@ -384,7 +404,7 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 			$value = $this->sanitizeName($value);
 		}
 		
-		$this->{$key} = $value;
+		parent::__set($key, $value);
 	}
 
 	/**
