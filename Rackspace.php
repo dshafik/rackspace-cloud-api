@@ -123,7 +123,7 @@ class Rackspace {
 			'X-Auth-User' => self::$username,
 			'X-Auth-Key' => self::$api_key,
 		));
-		$response = $http->request();
+		$response = $http->request("GET");
 		
 		if ($response->isError()) {
 			throw new Rackspace_Exception(Rackspace_Exception::AUTHENTICATION_ERROR);

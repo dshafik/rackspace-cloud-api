@@ -52,10 +52,12 @@ class Rackspace_Cloud_Servers {
 			$http->setUri(Rackspace::$server_url . "/servers/$id");
 		}
 		
-		$response = $http->request();
+		$response = $http->request("GET");
 
+		/* @var $response Zend_Http_Client_Reponse */
 		if ($response->isError()) {
-			throw new Rackspace_Exception(Rackspace_Exception::BAD_REQUEST);
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
 		}
 
 		$array = Zend_Json::decode($response->getBody());
@@ -96,7 +98,13 @@ class Rackspace_Cloud_Servers {
 			$http->setUri(Rackspace::$server_url . "/flavors/$id");
 		}
 		
-		$response = $http->request();
+		$response = $http->request("GET");
+
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
 		
 		$array = Zend_Json::decode($response->getBody());
 		
@@ -138,15 +146,17 @@ class Rackspace_Cloud_Servers {
 			$http->setUri(Rackspace::$server_url . "/images/$id");
 		}
 
-		$response = $http->request();
+		$response = $http->request("GET");
 
+		/* @var $response Zend_Http_Client_Reponse */
 		if ($response->isError()) {
-			throw new Rackspace_Exception(Rackspace_Exception::BAD_REQUEST);
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
 		}
 
 		$array = Zend_Json::decode($response->getBody());
 
-		if (sizeof($array) == 0) {
+		if (isset($array['images']) && sizeof($array['images']) == 0 && is_null($id)) {
 			return false;
 		} else {
 			require_once 'Rackspace/Cloud/Servers/Image.php';

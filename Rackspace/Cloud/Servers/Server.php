@@ -93,7 +93,14 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 	{
 		$http = Rackspace_Cloud_Servers::getHttpClient();
 		$http->setUri(Rackspace::$server_url . "/servers/$this->id/ips");
-		$reponse = $http->request();
+
+		$response = $http->request("GET");
+		
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
 		
 		$addr = Zend_Json::decode($reponse->getBody());
 		$this->addresses = $addr['addresses'];
@@ -112,7 +119,13 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 		$http = Rackspace_Cloud_Servers::getHttpClient();
 		$http->setUri(Rackspace::$server_url . "/servers/$this->id/ips/public");
 		
-		$response = $http->request();
+		$response = $http->request("GET");
+
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
 		
 		$decoded = Zend_Json::decode($response->getBody());
 		$this->addresses['public'] = $decoded['public'];
@@ -132,7 +145,13 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 		$http = Rackspace_Cloud_Servers::getHttpClient();
 		$http->setUri(Rackspace::$server_url . "/servers/$this->id/ips/private");
 		
-		$response = $http->request();
+		$response = $http->request("GET");
+
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
 		
 		$decoded = Zend_Json::decode($response->getBody());
 		$this->addresses['private'] = $decoded['private'];
@@ -172,13 +191,17 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 
 		$response = $http->request("POST");
 
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
+
 		if ($response->isSuccessful()) {
 			$array = Zend_Json::decode($response->getBody());
 			// Setup this object now we have all our data
 			$this->__construct($array['server']);
 			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -194,10 +217,14 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 
 		$response = $http->request('DELETE');
 
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
+
 		if ($response->isSuccessful()) {
 			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -318,11 +345,15 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 		$http->setEncType("application/json");
 		
 		$response = $http->request("POST");
+
+		/* @var $response Zend_Http_Client_Reponse */
+		if ($response->isError()) {
+			$data = Zend_Json::decode($response->getBody());
+			throw new Rackspace_Cloud_Servers_Fault($data);
+		}
 		
 		if ($response->isSuccessful()) {
 			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -346,8 +377,12 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 		$this->id = null;
 		$this->progress = null;
 		$this->status = null;
-		$this->name .= "(Cloned)";
+		$this->name .= "-clone";
 		$this->hostId = null;
+		$this->addresses = null;
+		if (is_array($this->metadata) && sizeof($this->metadata) == 0) {
+			$this->metadata = null;
+		}
 	}
 
 	/**
