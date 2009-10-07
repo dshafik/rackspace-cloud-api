@@ -99,13 +99,11 @@ class Rackspace_Json {
 
 			// Skip quoted keys and values
 			if ($char == '"' || $char == "'") {
-				echo "Found $char at position $i";
 				$lookfor = $char;
 				for ($i = $i+1; $i <= $strLen; $i++) {
 					$result .= $char;
 					$char = substr($json, $i, 1);
 					if ($char == $lookfor) {
-						echo " and closing $char at $i";
 						break;
 					}
 				}
