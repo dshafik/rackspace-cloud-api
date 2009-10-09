@@ -70,17 +70,33 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 	protected $metadata;
 
 	/**
-	 * @var bool Whether the instance is new or not
-	 */
-	protected $is_new;
-
-	/**
 	 * @var array An array of custom files when creating a new instance
 	 */
 	protected $personality;
 
+	/**
+	 * @var array The original data used to create the instance
+	 */
+	protected $originalData;
+
+	/**
+	 * @var string The admin password
+	 */
+	protected $adminPass;
+
 	const FILE_CONTENTS = 0;
 	const FILE_PATH = 1;
+
+	/**
+	 * Constructor
+	 *
+	 * @param array $data Constructor
+	 */
+	public function __construct($data)
+	{
+		$this->originalData = $data;
+		parent::__construct($data);
+	}
 
 	/**
 	 * Get Private and Public IPs
@@ -172,36 +188,69 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 	}
 
 	/**
-	 * Send Create request
+	 * Save the server
+	 *
+	 * If this is a new instance, it will be created,
+	 * otherwise the server name and/or password will
+	 * be updated, if they have changed.
 	 *
 	 * @return bool
 	 */
-	public function create()
+	public function save()
 	{
-		if (!$this->isNew()) {
-			throw new Rackspace_Exception(Rackspace_Exception::SERVER_ALREADY_EXISTS);
-		}
+		if ($this->isNew()) {
+			$json = Zend_Json::encode($this);
 
-		$json = Zend_Json::encode($this);
+			$http = Rackspace_Cloud_Servers::getHttpClient();
+			$http->setUri(Rackspace::$server_url . "/servers");
+			$http->setRawData($json);
 
-		$http = Rackspace_Cloud_Servers::getHttpClient();
-		$http->setUri(Rackspace::$server_url . "/servers");
-		$http->setRawData($json);
-		$http->setEncType("application/json");
+			$http->setEncType("application/json");
 
-		$response = $http->request("POST");
+			$response = $http->request("POST");
 
-		/* @var $response Zend_Http_Client_Reponse */
-		if ($response->isError()) {
-			$data = Zend_Json::decode($response->getBody());
-			throw new Rackspace_Cloud_Servers_Fault($data);
-		}
+			/* @var $response Zend_Http_Client_Reponse */
+			if ($response->isError()) {
+				$data = Zend_Json::decode($response->getBody());
+				throw new Rackspace_Cloud_Servers_Fault($data);
+			}
 
-		if ($response->isSuccessful()) {
-			$array = Zend_Json::decode($response->getBody());
-			// Setup this object now we have all our data
-			$this->__construct($array['server']);
-			return true;
+			if ($response->isSuccessful()) {
+				$array = Zend_Json::decode($response->getBody());
+				// Setup this object now we have all our data
+				$this->__construct($array['server']);
+				return true;
+			}
+		} else {
+			$body = new Rackspace_Json_Container();
+			$body->server = new Rackspace_Json_Container();
+			if (isset($this->adminPass) && $this->originalData['adminPass'] != $this->adminPass) {
+				$body->server->adminPass = $this->adminPass;
+			}
+			if (isset($this->name) && $this->originalData['name'] != $this->name) {
+				$body->server->name = $this->name;
+			}
+
+			$json = Zend_Json::encode($body);
+
+			$http = Rackspace_Cloud_Servers::getHttpClient();
+			$http->setUri(Rackspace::$server_url . "/servers/$this->id");
+
+			$http->setRawData($json);
+
+			$http->setEncType("application/json");
+
+			$response = $http->request("PUT");
+
+			/* @var $response Zend_Http_Client_Reponse */
+			if ($response->isError()) {
+				$data = Zend_Json::decode($response->getBody());
+				throw new Rackspace_Cloud_Servers_Fault($data);
+			}
+
+			if ($response->isSuccessful()) {
+				return true;
+			}
 		}
 	}
 
@@ -435,7 +484,7 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 		}
 
 		/* While $this->id isn't always set first, if it is, we can skip this costly call for existing server instances */
-		if ($key == 'name' && !isset($this->id)) {
+		if ($key == 'name') {
 			$value = $this->sanitizeName($value);
 		}
 		
@@ -458,10 +507,9 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 
 	protected function sanitizeName($value)
 	{
+		$value = str_replace(" ", "", $value);
 		if (preg_match('/[^0-9a-zA-Z]+/', $value)) {
-			$value = strtolower($value);
-			$value = preg_replace('/[^0-9a-zA-Z]+/', '-', $value);
-			$value = str_replace(" ", "-", $value);
+			$value = preg_replace('/[^0-9a-zA-Z]+/', '', $value);
 		}
 		return $value;
 	}
