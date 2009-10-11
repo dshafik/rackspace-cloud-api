@@ -18,9 +18,9 @@ require_once 'Zend/Json.php';
 require_once 'Rackspace/Cloud/Servers/Fault.php';
 
 /**
- * Rackspace_Json_Container
+ * Rackspace_Json
  */
-require_once 'Rackspace/Json/Container.php';
+require_once 'Rackspace/Json.php';
 
 /**
  * Rackspace Cloud Servers API Class
