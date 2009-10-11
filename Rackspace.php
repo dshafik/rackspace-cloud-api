@@ -100,7 +100,7 @@ class Rackspace {
 	static public function getHttpClient()
 	{
 		if (!(self::$http_client instanceof Zend_Http_Client)) {
-			self::$http_client = new Zend_Http_Client(null, array('UserAgent' => 'PHP/' .PHP_VERSION. '(Rackspace Cloud API by Davey Shafik)'));
+			self::$http_client = new Zend_Http_Client(null, array('UserAgent' => 'PHP/' .PHP_VERSION. ' (Rackspace Cloud API by Davey Shafik <me@daveyshafik.com>)'));
 		}
 		
 		self::$http_client->setHeaders('X-Auth-User', null);
