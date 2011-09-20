@@ -75,6 +75,10 @@ class Rackspace_Cloud_Servers_Image extends Rackspace_Cloud_Servers_Abstract imp
 		return parent::toJson();
 	}
 
+    public function setServerId($serverId) {
+        $this->serverId = $serverId; 
+    }
+
 	/**
 	 * Return int representation of this object
 	 *
