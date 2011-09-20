@@ -118,7 +118,7 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 			throw new Rackspace_Cloud_Servers_Fault($data);
 		}
 		
-		$addr = Zend_Json::decode($reponse->getBody());
+		$addr = Zend_Json::decode($response->getBody());
 		$this->addresses = $addr['addresses'];
 		return $this->addresses;
 	}
@@ -480,7 +480,7 @@ class Rackspace_Cloud_Servers_Server extends Rackspace_Cloud_Servers_Abstract im
 				$value = $image;
 			}
 
-			$value->serverId = $this->id;
+			$value->setServerId($this->id);
 		}
 
 		/* While $this->id isn't always set first, if it is, we can skip this costly call for existing server instances */
