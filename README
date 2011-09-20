@@ -5,3 +5,5 @@ The initial offering focuses on Cloud Servers.
 
 To use this API, you must place a copy of the Zend framework in your
 include_path.
+
+Minor change by Claus Witt: Fixed some syntax errros. 
